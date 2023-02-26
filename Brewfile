@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
+brew "docker"
 brew "gh"
 brew "nvm"
 brew "pyenv"
