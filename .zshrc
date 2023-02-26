@@ -1,0 +1,41 @@
+# AUTOCOMPLETION
+
+# initialize autocompletion
+autoload -U compinit && compinit
+
+# history setup
+setopt SHARE_HISTORY
+HISTFILE=$HOME/.zhistory
+SAVEHIST=1000
+HISTSIZE=999
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# autocompletion using arrow keys (based on history)
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+# Starship
+eval "$(starship init zsh)"
+
+# Pyenv
+alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# Pyenv virtualenv
+eval "$(pyenv virtualenv-init -)"
+
+# GCloud SDK
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+
+# NVM
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+
+# Aliases
+alias proxy-test="~/cloud-sql-proxy wittra-backend-testing:europe-west1:wittra-pg-instance -p 5433"
+alias proxy-dev="~/cloud-sql-proxy wittra-backend-dev:europe-west1:wittra-pg-instance -p 5433"
+alias proxy-prod="~/cloud-sql-proxy wittra:europe-west1:wittra-pg-instance -p 5433"
+
