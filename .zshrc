@@ -38,4 +38,11 @@ source $(brew --prefix nvm)/nvm.sh
 alias proxy-test="~/cloud-sql-proxy wittra-backend-testing:europe-west1:wittra-pg-instance -p 5433"
 alias proxy-dev="~/cloud-sql-proxy wittra-backend-dev:europe-west1:wittra-pg-instance -p 5433"
 alias proxy-prod="~/cloud-sql-proxy wittra:europe-west1:wittra-pg-instance -p 5433"
+alias proxy-next="~/cloud-sql-proxy cloud-next-9v6a:europe-west1:wittra-pg-instance -p 5433"
 
+alias proxy-test-device-manager="~/cloud-sql-proxy wittra-backend-testing:europe-west1:device-manager-instance -p 5434"
+alias proxy-dev-device-manager="~/cloud-sql-proxy wittra-backend-dev:europe-west1:device-manager-instance -p 5434"
+alias proxy-prod-device-manager="~/cloud-sql-proxy wittra:europe-west1:device-manager-instance -p 5434"
+alias proxy-next-device-manager="~/cloud-sql-proxy cloud-next-9v6a:europe-west1:device-manager-instance -p 5434"
+
+alias proxy-test-billing="~/cloud-sql-proxy --auto-iam-authn wittra-backend-testing:europe-west1:billing-instance -p 5435"
