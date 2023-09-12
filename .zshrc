@@ -15,6 +15,8 @@ export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
 # Aliases
+alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+
 alias proxy-test="~/cloud-sql-proxy wittra-backend-testing:europe-west1:wittra-pg-instance -p 5433"
 alias proxy-dev="~/cloud-sql-proxy wittra-backend-dev:europe-west1:wittra-pg-instance -p 5433"
 alias proxy-prod="~/cloud-sql-proxy wittra:europe-west1:wittra-pg-instance -p 5433"
@@ -28,3 +30,4 @@ alias proxy-next-device-manager="~/cloud-sql-proxy cloud-next-9v6a:europe-west1:
 alias proxy-test-billing="~/cloud-sql-proxy --auto-iam-authn wittra-backend-testing:europe-west1:billing-instance -p 5435"
 
 eval "$(starship init zsh)"
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -1,4 +1,9 @@
-# Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#!/bin/bash
 
-ln -s ~/repos/personal/config/.zshrc ~/.zshrc
+# Define the location of your custom .zshrc
+TARGET_ZSHRC=~/repos/personal/config/.zshrc
+
+# Create a symbolic link. If ~/.zshrc exists, this will overwrite it!
+ln -sf $TARGET_ZSHRC ~/.zshrc
+
+echo "$TARGET_ZSHRC has been updated and symlinked to ~/.zshrc!"
