@@ -15,6 +15,17 @@ source $(brew --prefix nvm)/nvm.sh
 
 # Aliases
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+alias squash="git reset $(git merge-base master $(git branch --show-current))"
 
 eval "$(starship init zsh)"
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Java
+export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+
+# bun completions
+[ -s "/Users/djungermann/.bun/_bun" ] && source "/Users/djungermann/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
