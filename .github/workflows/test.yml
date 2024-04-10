@@ -3,6 +3,11 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+    inputs:
+      test:
+        description: 'Test'
+        required: true
+        default: 'true'
 
 jobs:
   test:
@@ -14,4 +19,4 @@ jobs:
 
     - name: Test Server
       run: |
-        echo 'HELLO WORLD'
+        echo ${{ github.event.inputs.test }} 
