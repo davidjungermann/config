@@ -1,2 +1,2 @@
 # config
-Configs for quick setup of Mac OS machine
+Brew and other configs for quick setup of Mac OS machine
