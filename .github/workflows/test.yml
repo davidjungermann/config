@@ -1,18 +1,14 @@
 name: Test
 on:
-  push:
-    branches: [ main ]
-  repository_dispatch:
-    types: [test]
-
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Pass a test name'     
+        required: true
+        default: 'No name provided'
 jobs:
-  test:
+  printInputs:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Test Server
-      run: |
-        echo "Client payload: ${{ github.event.client_payload }}"
+    - run: |
+        echo "Name: ${{ github.event.inputs.test }}"
