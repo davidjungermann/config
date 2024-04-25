@@ -28,4 +28,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Aliases
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-alias awslogin='python ./aws-cli/awslogin.py'
+alias awslogin='python /Users/djungermann/repos/personal/config/aws-cli/awslogin.py'

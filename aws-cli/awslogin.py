@@ -32,7 +32,6 @@ def handle_account(account):
 def generate_arn(account, role, admin):
     prefix = account.upper()
     role_prefix = prefix if not admin else f"{prefix}_ADMIN"
-    print(f"{role_prefix}_{role.upper()}_ROLE_ARN")
     arn = os.getenv(f"{role_prefix}_{role.upper()}_ROLE_ARN")
 
     if arn is None:
