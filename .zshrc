@@ -28,3 +28,6 @@ export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# AWS CLI script
+sudo ln -s /Users/djungermann/repos/personal/aws-cli/awslogin.py /usr/local/bin
