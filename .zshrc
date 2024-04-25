@@ -26,13 +26,6 @@ export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# AWS CLI script
-export PATH=$HOME/bin:$PATH
-
-if [ ! -e ~/bin/awslogin.py ]; then
-    ln -s /aws-cli/awslogin.py ~/bin
-fi
-
 # Aliases
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-alias aws-login="awslogin.py"
+alias awslogin='python ./aws-cli/awslogin.py'
