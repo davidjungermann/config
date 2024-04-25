@@ -13,9 +13,6 @@ eval "$(pyenv virtualenv-init -)"
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
-# Aliases
-alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-
 eval "$(starship init zsh)"
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
@@ -30,4 +27,12 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 # AWS CLI script
-sudo ln -s /Users/djungermann/repos/personal/aws-cli/awslogin.py /usr/local/bin
+export PATH=$HOME/bin:$PATH
+
+if [ ! -e ~/bin/awslogin.py ]; then
+    ln -s /aws-cli/awslogin.py ~/bin
+fi
+
+# Aliases
+alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+alias aws-login="awslogin.py"
