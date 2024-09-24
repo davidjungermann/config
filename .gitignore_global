@@ -1,0 +1,13 @@
+# macOS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS trash folder
+.Trashes
+
+# VS Code-specific files
+.vscode/
+
+# pyenv virtualenv
+.python-version
