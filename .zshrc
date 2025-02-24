@@ -1,6 +1,7 @@
 # Brew
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 
+
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -36,9 +37,20 @@ alias tp='telepresence'
 export K9S_EDITOR=nano
 export EDITOR=nano
 
+# Krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # Directory in iterm title
 if [ $ITERM_SESSION_ID ]; then
 precmd() {
   echo -ne "\033]0;${PWD##*/}\007"
 }
 fi
+
+# Cloud SQL Auth Proxy
+alias cloud-sql-proxy="~/cloud-sql-proxy"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# Jenv (at the very end)
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
