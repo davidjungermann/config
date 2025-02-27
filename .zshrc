@@ -54,3 +54,6 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # Jenv (at the very end)
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+
+# Curlpod
+alias curlpod="kubectl run curlpod --rm -it --image=curlimages/curl -- sh"
