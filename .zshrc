@@ -1,6 +1,21 @@
+# Powerlevel10k + oh-my-zsh
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Brew
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
-
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -14,18 +29,8 @@ eval "$(pyenv virtualenv-init -)"
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
-eval "$(starship init zsh)"
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # Java
 export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
-
-# bun completions
-[ -s "/Users/djungermann/.bun/_bun" ] && source "/Users/djungermann/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Aliases
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
@@ -51,7 +56,7 @@ fi
 alias cloud-sql-proxy="~/cloud-sql-proxy"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-# Jenv (at the very end)
+# Jenv
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
