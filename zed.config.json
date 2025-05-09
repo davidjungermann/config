@@ -1,3 +1,11 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
 {
   "features": {
     "edit_prediction_provider": "copilot"
@@ -21,9 +29,12 @@
   },
   "languages": {
     "Helm": {
-      "language_servers": ["helm_ls"],
-      "formatter": "language_server",
-      "format_on_save": "on"
+      "enable_language_server": true,
+      "language_servers": ["helm-ls"],
+      "binary": {
+        "path": "helm_ls",
+        "arguments": ["serve"]
+      }
     }
   },
   "file_types": {
