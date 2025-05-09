@@ -1,0 +1,38 @@
+{
+  "features": {
+    "edit_prediction_provider": "copilot"
+  },
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-3.7-sonnet-thought"
+    },
+    "version": "2"
+  },
+  "theme": {
+    "mode": "system",
+    "light": "Gruvbox Light Soft",
+    "dark": "Gruvbox Dark Soft"
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "terminal": {
+    "font_family": "MesloLGS NF"
+  },
+  "languages": {
+    "Helm": {
+      "language_servers": ["helm_ls"],
+      "formatter": "language_server",
+      "format_on_save": "on"
+    }
+  },
+  "file_types": {
+    "Helm": [
+      "**/templates/**/*.tpl",
+      "**/templates/**/*.yaml",
+      "**/templates/**/*.yml",
+      "**/helmfile.d/**/*.yaml",
+      "**/helmfile.d/**/*.yml"
+    ]
+  }
+}
