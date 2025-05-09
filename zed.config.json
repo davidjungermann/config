@@ -32,8 +32,9 @@
       "enable_language_server": true,
       "language_servers": ["helm-ls"],
       "binary": {
-        "path": "helm_ls",
-        "arguments": ["serve"]
+        "path": "/opt/homebrew/bin/helm_ls",
+        "arguments": ["serve"],
+        "ignore_system_version": false
       }
     }
   },
