@@ -30,11 +30,9 @@
   "languages": {
     "Helm": {
       "enable_language_server": true,
-      "language_servers": ["helm-ls"],
       "binary": {
         "path": "/opt/homebrew/bin/helm_ls",
-        "arguments": ["serve"],
-        "ignore_system_version": false
+        "arguments": ["serve"]
       }
     }
   },
