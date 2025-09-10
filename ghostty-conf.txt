@@ -1,0 +1,2 @@
+theme = light:/Users/djungermann/mbadolato-iTerm2-Color-Schemes-ad78eb6/ghostty/GruvboxLight,dark:/Users/djungermann/mbadolato-iTerm2-Color-Schemes-ad78eb6/ghostty/GruvboxDark
+font-family = MesloLGS NF

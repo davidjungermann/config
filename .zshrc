@@ -36,7 +36,6 @@ export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
 alias awslogin='python /Users/djungermann/repos/personal/config/aws-cli/awslogin.py'
 alias k='kubectl'
-alias tp='telepresence'
 
 # K9S
 export K9S_EDITOR=nano
