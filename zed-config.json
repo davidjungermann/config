@@ -13,7 +13,7 @@
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-3.7-sonnet-thought"
+      "model": "claude-4-sonnet"
     }
   },
   "theme": {
@@ -25,7 +25,7 @@
   "buffer_font_size": 16,
   "buffer_font_family": "Fira Code",
   "terminal": {
-    "font_family": "MesloLGS NF"
+    "font_family": "MesloLGL Nerd Font Mono"
   },
   "languages": {
     "Helm": {
