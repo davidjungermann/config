@@ -118,9 +118,68 @@ else
 fi
 
 # -----------------------------
-# Done
-echo ""
-print_success "Dotfiles setup completed!"
+# K9s plugins
+print_status "Setting up K9s plugins..."
+if command_exists k9s; then
+    print_success "K9s is installed"
+
+    PLUGINS_DIR="$HOME/Library/Application Support/k9s/plugins"
+    mkdir -p "$PLUGINS_DIR"
+
+    # Configure k9s to use plugins directory
+    K9S_CONFIG="$HOME/Library/Application Support/k9s/config.yaml"
+    if [ -f "$K9S_CONFIG" ]; then
+        # Update existing config if pluginsDir not set
+        if ! grep -q "pluginsDir:" "$K9S_CONFIG"; then
+            echo "k9s:" >> "$K9S_CONFIG"
+            echo "  pluginsDir: $PLUGINS_DIR" >> "$K9S_CONFIG"
+            print_success "Configured k9s to use plugins directory"
+        fi
+    else
+        # Create new config with pluginsDir
+        cat > "$K9S_CONFIG" << EOF
+k9s:
+  pluginsDir: $PLUGINS_DIR
+EOF
+        print_success "Created k9s config with plugins directory"
+    fi
+
+    # Hard-coded list of plugins to install
+    PLUGINS=("argocd.yaml" "helm-diff.yaml" "log-stern.yaml" "log-jq.yaml" "szero.yaml")
+    BASE_URL="https://raw.githubusercontent.com/derailed/k9s/master/plugins"
+
+    for plugin in "${PLUGINS[@]}"; do
+        print_status "Installing plugin: $plugin"
+        if curl -s -f "$BASE_URL/$plugin" -o "$PLUGINS_DIR/$plugin"; then
+            print_success "✓ $plugin"
+        else
+            print_warning "✗ Failed to download $plugin"
+        fi
+    done
+
+    # Install CloudNativePG plugin in new location
+    print_status "Installing CloudNativePG plugin..."
+    cat > "$PLUGINS_DIR/cloudnativepg.yaml" << 'EOF'
+shortCut: Shift-p
+confirm: false
+description: "CloudNativePG operations"
+scopes:
+- all
+command: sh
+background: false
+args:
+- -c
+- "kubectl cnpg status --context $CONTEXT -n $NAMESPACE | less -K"
+EOF
+    print_success "✓ cloudnativepg.yaml"
+
+else
+    print_warning "K9s not installed - skipping plugins"
+    print_status "To install K9s: brew install k9s"
+fi
+
+# -----------------------------
+#d!"
 print_status "Summary:"
 echo "  ✓ Zsh configuration"
 echo "  ✓ Git global settings"
