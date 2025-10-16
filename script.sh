@@ -126,24 +126,6 @@ if command_exists k9s; then
     PLUGINS_DIR="$HOME/Library/Application Support/k9s/plugins"
     mkdir -p "$PLUGINS_DIR"
 
-    # Configure k9s to use plugins directory
-    K9S_CONFIG="$HOME/Library/Application Support/k9s/config.yaml"
-    if [ -f "$K9S_CONFIG" ]; then
-        # Update existing config if pluginsDir not set
-        if ! grep -q "pluginsDir:" "$K9S_CONFIG"; then
-            echo "k9s:" >> "$K9S_CONFIG"
-            echo "  pluginsDir: $PLUGINS_DIR" >> "$K9S_CONFIG"
-            print_success "Configured k9s to use plugins directory"
-        fi
-    else
-        # Create new config with pluginsDir
-        cat > "$K9S_CONFIG" << EOF
-k9s:
-  pluginsDir: $PLUGINS_DIR
-EOF
-        print_success "Created k9s config with plugins directory"
-    fi
-
     # Copy plugins from local k9s-plugins directory
     PLUGINS_SOURCE="$CONFIG_DIR/k9s-plugins"
 
