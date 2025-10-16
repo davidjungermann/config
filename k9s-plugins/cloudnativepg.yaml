@@ -1,0 +1,10 @@
+shortCut: Shift-P
+confirm: false
+description: "CloudNativePG operations"
+scopes:
+  - all
+command: sh
+background: false
+args:
+  - -c
+  - "kubectl cnpg status --context $CONTEXT -n $NAMESPACE | less -K"

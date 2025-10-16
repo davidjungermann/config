@@ -1,0 +1,13 @@
+plugins:
+  # Pipe logs through jq for JSON formatting
+  jqlogs:
+    shortCut: Ctrl-J
+    confirm: false
+    description: "Logs (jq)"
+    scopes:
+      - po
+    command: sh
+    background: false
+    args:
+      - -c
+      - "kubectl logs $NAME --namespace $NAMESPACE --context $CONTEXT --tail=100 -f | jq -R 'fromjson? // .'"

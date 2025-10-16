@@ -144,34 +144,26 @@ EOF
         print_success "Created k9s config with plugins directory"
     fi
 
-    # Hard-coded list of plugins to install
-    PLUGINS=("argocd.yaml" "helm-diff.yaml" "log-stern.yaml" "log-jq.yaml" "szero.yaml")
-    BASE_URL="https://raw.githubusercontent.com/derailed/k9s/master/plugins"
+    # Copy plugins from local k9s-plugins directory
+    PLUGINS_SOURCE="$CONFIG_DIR/k9s-plugins"
 
-    for plugin in "${PLUGINS[@]}"; do
-        print_status "Installing plugin: $plugin"
-        if curl -s -f "$BASE_URL/$plugin" -o "$PLUGINS_DIR/$plugin"; then
-            print_success "✓ $plugin"
-        else
-            print_warning "✗ Failed to download $plugin"
-        fi
-    done
+    if [ -d "$PLUGINS_SOURCE" ]; then
+        print_status "Copying plugins from $PLUGINS_SOURCE"
 
-    # Install CloudNativePG plugin in new location
-    print_status "Installing CloudNativePG plugin..."
-    cat > "$PLUGINS_DIR/cloudnativepg.yaml" << 'EOF'
-shortCut: Shift-p
-confirm: false
-description: "CloudNativePG operations"
-scopes:
-- all
-command: sh
-background: false
-args:
-- -c
-- "kubectl cnpg status --context $CONTEXT -n $NAMESPACE | less -K"
-EOF
-    print_success "✓ cloudnativepg.yaml"
+        for plugin_file in "$PLUGINS_SOURCE"/*.yaml; do
+            if [ -f "$plugin_file" ]; then
+                plugin_name=$(basename "$plugin_file")
+                print_status "Installing plugin: $plugin_name"
+                if cp "$plugin_file" "$PLUGINS_DIR/$plugin_name"; then
+                    print_success "✓ $plugin_name"
+                else
+                    print_warning "✗ Failed to copy $plugin_name"
+                fi
+            fi
+        done
+    else
+        print_warning "Plugins directory not found at $PLUGINS_SOURCE"
+    fi
 
 else
     print_warning "K9s not installed - skipping plugins"
