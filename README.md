@@ -54,6 +54,7 @@ brew bundle --file=Brewfile
 - **`ghostty-config`** - Ghostty terminal emulator settings
 - **`zed-config.json`** - Zed editor configuration
 - **`Brewfile`** - Homebrew package and application definitions
+- **Neovim** - [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) configuration automatically installed
 
 ### Setup Scripts
 
@@ -75,6 +76,13 @@ brew bundle --file=Brewfile
 - **Features**: Copilot integration, Helm language server
 - **Config Location**: `~/.config/zed/settings.json`
 
+### Editor: Neovim
+- **Configuration**: [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) - A minimal, well-documented starting point
+- **Features**: LSP support, Treesitter, Telescope fuzzy finder, and more
+- **Config Location**: `~/.config/nvim`
+- **Auto-setup**: The setup script automatically clones kickstart.nvim if no existing config is found
+- **Plugin Manager**: lazy.nvim (plugins install automatically on first launch)
+
 ### Shell: Zsh
 - Custom prompt and aliases
 - **Config Location**: `~/.zshrc`
@@ -94,6 +102,9 @@ brew install --cask font-fira-code
 
 # MesloLGS NF (for Ghostty terminal)
 brew install --cask font-meslo-lg-nerd-font
+
+# Neovim
+brew install neovim
 ```
 
 ### Applications from Brewfile
@@ -103,6 +114,7 @@ Your Brewfile includes everything needed:
 # Core applications
 cask "ghostty"          # Terminal emulator
 cask "zed"              # Code editor
+brew "neovim"           # Terminal-based editor
 
 # Required fonts
 cask "font-fira-code"           # For Zed editor
@@ -160,6 +172,15 @@ If applications aren't installed, the script will show helpful warnings:
 
 Simply run `brew bundle` then re-run the setup script.
 
+### Existing Neovim Configuration
+If you already have a Neovim configuration, the script will detect it and provide instructions:
+```bash
+[WARNING] Neovim config already exists at ~/.config/nvim
+[INFO] To install kickstart.nvim, backup and remove the existing config:
+[INFO]   mv ~/.config/nvim ~/.config/nvim.backup
+[INFO]   git clone https://github.com/nvim-lua/kickstart.nvim ~/.config/nvim
+```
+
 ### Manual Configuration
 If automatic setup fails, you can manually create symlinks:
 
@@ -177,11 +198,16 @@ ln -sf ~/repos/config/ghostty-config ~/.config/ghostty/config
 # Zed
 mkdir -p ~/.config/zed
 ln -sf ~/repos/config/zed-config.json ~/.config/zed/settings.json
+
+# Neovim (kickstart.nvim)
+git clone https://github.com/nvim-lua/kickstart.nvim ~/.config/nvim
 ```
 
 ## 📚 Additional Resources
 
 - [Ghostty Documentation](https://ghostty.org/docs)
 - [Zed Documentation](https://zed.dev/docs)
+- [Neovim Documentation](https://neovim.io/doc/)
+- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)
 - [Gruvbox Theme](https://github.com/morhetz/gruvbox)
 - [Fira Code Font](https://github.com/tonsky/FiraCode)

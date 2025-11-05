@@ -73,8 +73,8 @@ alias cloud-sql-proxy="~/cloud-sql-proxy"
 # -----------------------------
 # Application Settings
 # -----------------------------
-export K9S_EDITOR=nano
-export EDITOR=nano
+export K9S_EDITOR=nvim
+export EDITOR=nvim
 
 # Directory in iTerm title
 if [ $ITERM_SESSION_ID ]; then

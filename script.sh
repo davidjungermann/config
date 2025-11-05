@@ -101,6 +101,35 @@ else
 fi
 
 # -----------------------------
+# Neovim (kickstart.nvim)
+print_status "Checking for Neovim installation..."
+if command_exists nvim; then
+    print_success "Neovim is installed"
+
+    NVIM_CONFIG_DIR=~/.config/nvim
+    KICKSTART_REPO="https://github.com/nvim-lua/kickstart.nvim.git"
+
+    if [ -d "$NVIM_CONFIG_DIR" ]; then
+        print_warning "Neovim config already exists at $NVIM_CONFIG_DIR"
+        print_status "To install kickstart.nvim, backup and remove the existing config:"
+        print_status "  mv ~/.config/nvim ~/.config/nvim.backup"
+        print_status "  git clone $KICKSTART_REPO $NVIM_CONFIG_DIR"
+    else
+        print_status "Installing kickstart.nvim..."
+        if git clone "$KICKSTART_REPO" "$NVIM_CONFIG_DIR" 2>/dev/null; then
+            print_success "kickstart.nvim installed successfully"
+            print_status "Run 'nvim' to install plugins automatically"
+        else
+            print_error "Failed to clone kickstart.nvim"
+            print_status "Manual installation: git clone $KICKSTART_REPO $NVIM_CONFIG_DIR"
+        fi
+    fi
+else
+    print_warning "Neovim not installed - skipping"
+    print_status "To install Neovim: brew install neovim"
+fi
+
+# -----------------------------
 # Fonts
 print_status "Checking for required fonts..."
 if system_profiler SPFontsDataType 2>/dev/null | grep -qi "Fira Code"; then
@@ -166,6 +195,11 @@ if command_exists zed || [ -d "/Applications/Zed.app" ]; then
     echo "  ✓ Zed editor"
 else
     echo "  - Zed editor (not installed)"
+fi
+if command_exists nvim; then
+    echo "  ✓ Neovim"
+else
+    echo "  - Neovim (not installed)"
 fi
 
 echo ""
