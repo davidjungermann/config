@@ -82,3 +82,5 @@ if [ $ITERM_SESSION_ID ]; then
     echo -ne "\033]0;${PWD##*/}\007"
   }
 fi
+
+# Test
