@@ -70,6 +70,24 @@ alias k='kubectl'
 alias curlpod="kubectl run curlpod --rm -it --image=curlimages/curl -- sh"
 alias cloud-sql-proxy="~/cloud-sql-proxy"
 
+# Git aliases
+alias gp='git push'
+alias gpp='git push && gh pr create --web'
+
+# -----------------------------
+# Git Functions
+# -----------------------------
+
+# gbc - Git Branch Commit
+# Automatically stages, creates a new branch, and commits with a formatted message
+# Usage: gbc fix-add-missing-value
+gbc() {
+  git add .
+  git checkout -b "$1"
+  git commit -m "$(echo "$1" | sed 's/-/: /1' | tr '-' ' ')"
+}
+
+
 # -----------------------------
 # Application Settings
 # -----------------------------
