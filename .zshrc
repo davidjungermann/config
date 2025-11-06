@@ -70,6 +70,26 @@ alias k='kubectl'
 alias curlpod="kubectl run curlpod --rm -it --image=curlimages/curl -- sh"
 alias cloud-sql-proxy="~/cloud-sql-proxy"
 
+# Git aliases
+alias gp='git push'
+alias gpp='git push && gh pr create --web'
+
+# -----------------------------
+# Git Functions
+# -----------------------------
+
+# gbc - Git Branch Commit with Jira prefix
+# Automatically stages, creates a new branch with feature/ prefix, and commits with Jira ticket
+# Usage: gbc PROJ-123-add-missing-value
+# Creates branch: feature/PROJ-123-add-missing-value
+# Commit message: PROJ-123: add missing value
+gbc() {
+  git add .
+  git checkout -b "feature/$1"
+  # Extract JIRA ticket (e.g., PROJ-123) and description, format as "PROJ-123: description with spaces"
+  git commit -m "$(echo "$1" | sed -E 's/([A-Z]+-[0-9]+)-/\1: /' | tr '-' ' ')"
+}
+
 # -----------------------------
 # Application Settings
 # -----------------------------
