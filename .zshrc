@@ -80,11 +80,33 @@ alias gpp='git push && gh pr create --web'
 
 # gbc - Git Branch Commit
 # Automatically stages, creates a new branch, and commits with a formatted message
-# Usage: gbc fix-add-missing-value
+# Usage: gbc <branch-name> <commit-message>
+# Example: gbc feature/SWIM-1337 "handles branches"
+#          Creates branch: feature/SWIM-1337
+#          Commit message: SWIM-1337: handles branches
 gbc() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: gbc <branch-name> <commit-message>"
+    echo "Example: gbc feature/SWIM-1337 \"handles branches\""
+    return 1
+  fi
+
+  local branch_name="$1"
+  local commit_message="$2"
+
   git add .
-  git checkout -b "$1"
-  git commit -m "$(echo "$1" | sed 's/-/: /1' | tr '-' ' ')"
+  git checkout -b "$branch_name"
+
+  # Extract ticket number from branch name if it exists (e.g., SWIM-1337 from feature/SWIM-1337)
+  local ticket=$(echo "$branch_name" | grep -oE '[A-Z]+-[0-9]+')
+
+  if [ -n "$ticket" ]; then
+    # If ticket found, format as "TICKET: message"
+    git commit -m "$ticket: $commit_message"
+  else
+    # Otherwise just use the commit message as-is
+    git commit -m "$commit_message"
+  fi
 }
 
 
