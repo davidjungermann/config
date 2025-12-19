@@ -10,35 +10,36 @@
   "show_edit_predictions": true,
   "autosave": "on_window_change",
   "features": {
-    "edit_prediction_provider": "copilot"
+    "edit_prediction_provider": "copilot",
   },
   "agent": {
+    "default_profile": "write",
     "notify_when_agent_waiting": "never",
-    "always_allow_tool_actions": false,
+    "always_allow_tool_actions": true,
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-5"
-    }
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4.5",
+    },
   },
   "theme": {
     "mode": "system",
     "light": "Gruvbox Light Soft",
-    "dark": "Gruvbox Dark Soft"
+    "dark": "Gruvbox Dark Soft",
   },
   "ui_font_size": 16,
   "buffer_font_size": 16,
   "buffer_font_family": "Fira Code",
   "terminal": {
-    "font_family": "MesloLGL Nerd Font Mono"
+    "font_family": "MesloLGL Nerd Font Mono",
   },
   "languages": {
     "Helm": {
       "enable_language_server": true,
       "binary": {
         "path": "/opt/homebrew/bin/helm_ls",
-        "arguments": ["serve"]
-      }
-    }
+        "arguments": ["serve"],
+      },
+    },
   },
   "file_types": {
     "Helm": [
@@ -46,7 +47,15 @@
       "**/templates/**/*.yaml",
       "**/templates/**/*.yml",
       "**/helmfile.d/**/*.yaml",
-      "**/helmfile.d/**/*.yml"
-    ]
-  }
+      "**/helmfile.d/**/*.yml",
+    ],
+  },
+  "lsp": {
+    "jdtls": {
+      "settings": {
+        "java_home": "/Users/djungermann/.jenv/versions/21",
+        "lombok_support": true,
+      },
+    },
+  },
 }

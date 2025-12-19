@@ -45,6 +45,9 @@ if command -v brew >/dev/null 2>&1 && brew --prefix nvm >/dev/null 2>&1; then
     source $(brew --prefix nvm)/nvm.sh
 fi
 
+export NODE_OPTIONS="--max-old-space-size=8192"
+
+
 # Java
 if [[ -d "$(brew --prefix 2>/dev/null)/opt/openjdk/libexec/openjdk.jdk/Contents/Home" ]]; then
     export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
