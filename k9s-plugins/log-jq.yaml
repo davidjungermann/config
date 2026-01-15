@@ -5,7 +5,7 @@ plugins:
     confirm: false
     description: "Logs (jq)"
     scopes:
-      - po
+      - pods
     command: sh
     background: false
     args:
