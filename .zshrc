@@ -118,10 +118,3 @@ gbc() {
 # -----------------------------
 export K9S_EDITOR=nvim
 export EDITOR=nvim
-
-# Directory in iTerm title
-if [ $ITERM_SESSION_ID ]; then
-  precmd() {
-    echo -ne "\033]0;${PWD##*/}\007"
-  }
-fi
