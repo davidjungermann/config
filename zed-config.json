@@ -7,15 +7,17 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "edit_predictions": {
+    "provider": "zed"
+  },
   "show_edit_predictions": true,
   "autosave": "on_window_change",
-  "features": {
-    "edit_prediction_provider": "copilot",
-  },
   "agent": {
+    "tool_permissions": {
+      "default": "allow"
+    },
     "default_profile": "write",
     "notify_when_agent_waiting": "never",
-    "always_allow_tool_actions": true,
     "default_model": {
       "provider": "copilot_chat",
       "model": "claude-opus-4.5",
