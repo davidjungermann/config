@@ -12,6 +12,6 @@
 # pyenv virtualenv
 .python-version
 
-# AI tooling
-.composer/
+# AI slop
 .claude/
+.conductor/
