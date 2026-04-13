@@ -118,3 +118,10 @@ gbc() {
 # -----------------------------
 export K9S_EDITOR=nvim
 export EDITOR=nvim
+
+# bun completions
+[ -s "/Users/david/.bun/_bun" ] && source "/Users/david/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
