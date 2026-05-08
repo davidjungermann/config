@@ -64,6 +64,9 @@ else
     print_warning "Global gitignore file not found at $GITIGNORE_SOURCE"
 fi
 
+git config --global push.autoSetupRemote true
+print_success "push.autoSetupRemote enabled"
+
 # -----------------------------
 # Ghostty
 print_status "Checking for Ghostty installation..."
@@ -182,7 +185,7 @@ else
 fi
 
 # -----------------------------
-#d!"
+# Done!
 print_status "Summary:"
 echo "  ✓ Zsh configuration"
 echo "  ✓ Git global settings"
