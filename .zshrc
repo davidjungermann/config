@@ -3,18 +3,20 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+[[ -z "$ZSH_PROFILE" ]] || zmodload zsh/zprof
 # -----------------------------
 
 # Path to Oh My Zsh
 export ZSH="$HOME/.oh-my-zsh"
+export HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
 
 # Load plugins DIRECTLY from Homebrew (this works)
-if [[ -f /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
-    source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -f "$HOMEBREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+    source "$HOMEBREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
-if [[ -f /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-    source /opt/homebrew/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "$HOMEBREW_PREFIX/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+    source "$HOMEBREW_PREFIX/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting.zsh"
 fi
 
 # Theme
@@ -40,17 +42,24 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
 # NVM
-export NVM_DIR=~/.nvm
-if command -v brew >/dev/null 2>&1 && brew --prefix nvm >/dev/null 2>&1; then
-    source $(brew --prefix nvm)/nvm.sh
+export NVM_DIR="$HOME/.nvm"
+if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+    _load_nvm() {
+        unset -f nvm node npm npx
+        source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+    }
+    nvm() { _load_nvm; nvm "$@"; }
+    node() { _load_nvm; node "$@"; }
+    npm() { _load_nvm; npm "$@"; }
+    npx() { _load_nvm; npx "$@"; }
 fi
 
 export NODE_OPTIONS="--max-old-space-size=8192"
 
 
 # Java
-if [[ -d "$(brew --prefix 2>/dev/null)/opt/openjdk/libexec/openjdk.jdk/Contents/Home" ]]; then
-    export JAVA_HOME="$(brew --prefix)/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
+if [[ -d "$HOMEBREW_PREFIX/opt/openjdk/libexec/openjdk.jdk/Contents/Home" ]]; then
+    export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
 fi
 
 # Jenv
@@ -125,3 +134,5 @@ export EDITOR=nvim
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+[[ -z "$ZSH_PROFILE" ]] || zprof
