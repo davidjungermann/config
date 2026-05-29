@@ -6,52 +6,62 @@ fi
 [[ -z "$ZSH_PROFILE" ]] || zmodload zsh/zprof
 # -----------------------------
 
-# Path to Oh My Zsh
-export ZSH="$HOME/.oh-my-zsh"
 export HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
 
-# Load plugins DIRECTLY from Homebrew (this works)
+# Load plugins DIRECTLY from Homebrew
 if [[ -f "$HOMEBREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
     source "$HOMEBREW_PREFIX/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 if [[ -f "$HOMEBREW_PREFIX/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-    source "$HOMEBREW_PREFIX/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting.zsh"
+    source "$HOMEBREW_PREFIX/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
-# Theme
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# History (OMZ defaults, kept after dropping oh-my-zsh)
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+setopt SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE HIST_VERIFY HIST_REDUCE_BLANKS
 
-# Only git plugin
-plugins=(git)
+# Completions: skip the slow security audit if any dump is < 24h old
+# (compinit writes per-host/version dumps like .zcompdump-HOST-VERSION)
+autoload -Uz compinit
+if [[ -n $HOME/.zcompdump*(#qN.mh-24) ]]; then
+    compinit -C
+else
+    compinit
+fi
 
-# Load Oh My Zsh
-source $ZSH/oh-my-zsh.sh
-
-# Load Powerlevel10k config
+# Powerlevel10k (Homebrew install — no oh-my-zsh required)
+if [[ -f "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+    source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
+fi
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # -----------------------------
 # Environment Setup
 # -----------------------------
 
-# Pyenv
+# Pyenv (lazy-loaded; shims on PATH so python/pip resolve immediately.
+# Caveat: pyenv-virtualenv's chpwd auto-activate hook isn't installed
+# until the first `pyenv` invocation.)
 export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+pyenv() {
+    unset -f pyenv
+    eval "$(command pyenv init -)"
+    eval "$(command pyenv virtualenv-init -)"
+    pyenv "$@"
+}
 
-# NVM
+# NVM (lazy-loaded; each wrapper is self-contained so shell snapshots
+# that drop underscore-prefixed helpers still work)
 export NVM_DIR="$HOME/.nvm"
 if [[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
-    _load_nvm() {
-        unset -f nvm node npm npx
-        source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-    }
-    nvm() { _load_nvm; nvm "$@"; }
-    node() { _load_nvm; node "$@"; }
-    npm() { _load_nvm; npm "$@"; }
-    npx() { _load_nvm; npx "$@"; }
+    nvm()  { unset -f nvm node npm npx; source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; nvm  "$@"; }
+    node() { unset -f nvm node npm npx; source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; node "$@"; }
+    npm()  { unset -f nvm node npm npx; source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; npm  "$@"; }
+    npx()  { unset -f nvm node npm npx; source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"; npx  "$@"; }
 fi
 
 export NODE_OPTIONS="--max-old-space-size=8192"
@@ -62,9 +72,14 @@ if [[ -d "$HOMEBREW_PREFIX/opt/openjdk/libexec/openjdk.jdk/Contents/Home" ]]; th
     export JAVA_HOME="$HOMEBREW_PREFIX/opt/openjdk/libexec/openjdk.jdk/Contents/Home"
 fi
 
-# Jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+# Jenv (lazy-loaded; shims on PATH so java/javac resolve immediately.
+# Caveat: JAVA_HOME isn't auto-managed until the first `jenv` invocation.)
+export PATH="$HOME/.jenv/bin:$HOME/.jenv/shims:$PATH"
+jenv() {
+    unset -f jenv
+    eval "$(command jenv init -)"
+    jenv "$@"
+}
 
 # Krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -75,7 +90,7 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # -----------------------------
 # Aliases
 # -----------------------------
-alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+alias brew='env PATH="${PATH//$PYENV_ROOT\/shims:/}" brew'
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
 alias awslogin='python /Users/djungermann/repos/personal/config/aws-cli/awslogin.py'
 alias k='kubectl'

@@ -43,7 +43,7 @@ else
 fi
 
 # -----------------------------
-# Check required Homebrew packages (but don't mess with Oh My Zsh)
+# Check required Homebrew packages
 print_status "Checking required Homebrew packages..."
 for pkg in zsh-autosuggestions zsh-syntax-highlighting powerlevel10k; do
     if brew list "$pkg" >/dev/null 2>&1; then
