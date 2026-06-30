@@ -42,17 +42,9 @@ fi
 # Environment Setup
 # -----------------------------
 
-# Pyenv (lazy-loaded; shims on PATH so python/pip resolve immediately.
-# Caveat: pyenv-virtualenv's chpwd auto-activate hook isn't installed
-# until the first `pyenv` invocation.)
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
-pyenv() {
-    unset -f pyenv
-    eval "$(command pyenv init -)"
-    eval "$(command pyenv virtualenv-init -)"
-    pyenv "$@"
-}
+# Python is managed by uv (https://docs.astral.sh/uv/). Per-project versions
+# and venvs live in each project's .venv; `uv run`/`uv sync` handle the rest.
+# Homebrew's python@3.x provides the system `python3`.
 
 # NVM (lazy-loaded; each wrapper is self-contained so shell snapshots
 # that drop underscore-prefixed helpers still work)
@@ -90,9 +82,8 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # -----------------------------
 # Aliases
 # -----------------------------
-alias brew='env PATH="${PATH//$PYENV_ROOT\/shims:/}" brew'
 alias toggle="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-alias awslogin='python /Users/djungermann/repos/personal/config/aws-cli/awslogin.py'
+alias awslogin='python3 /Users/djungermann/repos/personal/config/aws-cli/awslogin.py'
 alias k='kubectl'
 alias curlpod="kubectl run curlpod --rm -it --image=curlimages/curl -- sh"
 alias cloud-sql-proxy="~/cloud-sql-proxy"
