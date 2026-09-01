@@ -125,6 +125,35 @@ cask "font-meslo-lg-nerd-font"  # For Ghostty terminal
 
 The setup script validates these are installed and configures them automatically.
 
+## Kubernetes contexts
+
+The setup installs `kubeconfig-split`, which keeps everyday and production
+contexts in separate local kubeconfig files without committing cluster access
+configuration to this repository.
+
+On first setup, the script offers to classify every context in
+`~/.kube/config` as dev, production, or skipped. You can also run it later:
+
+```bash
+kubeconfig-split
+```
+
+The generated files are `~/.kube/dev` and `~/.kube/production`. Existing
+outputs are timestamped before replacement. Select one in the current shell
+with:
+
+```bash
+kubeconfig dev
+kubeconfig production
+```
+
+The split only organizes contexts and reduces accidental context selection. It
+does not change permissions: GCP IAM continues to control what each user can do
+in a cluster.
+
+New shells default to the dev file once it exists. The combined source
+kubeconfig is left unchanged, so contexts can be reclassified later.
+
 ## 🎨 Theme Configuration
 
 Both Ghostty and Zed are configured with **Gruvbox** theme:

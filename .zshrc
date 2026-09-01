@@ -71,6 +71,36 @@ jenv() {
 
 # Krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Keep everyday and production Kubernetes contexts in separate files after
+# they have been classified with `kubeconfig-split`.
+[[ -f "$HOME/.kube/dev" ]] && export KUBECONFIG="$HOME/.kube/dev"
+kubeconfig() {
+    case "$1" in
+        dev|production)
+            if [[ -n "${2:-}" ]]; then
+                echo "Usage: kubeconfig {dev|production}" >&2
+                return 1
+            fi
+            if [[ ! -f "$HOME/.kube/$1" ]]; then
+                echo "Missing $HOME/.kube/$1; run kubeconfig-split first." >&2
+                return 1
+            fi
+            export KUBECONFIG="$HOME/.kube/$1"
+            echo "KUBECONFIG=$KUBECONFIG"
+            kubectl config current-context
+            ;;
+        *)
+            echo "Usage: kubeconfig {dev|production}" >&2
+            return 1
+            ;;
+    esac
+}
+
+# Remove the previous local production guard when this file is re-sourced in
+# an already-running shell.
+unfunction kubectl _kubectl_command_name _kubectl_production_readonly 2>/dev/null
 
 # Cloud SQL Auth Proxy path
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"

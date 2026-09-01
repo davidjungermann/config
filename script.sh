@@ -24,6 +24,7 @@ TARGET_ZSHRC=$CONFIG_DIR/.zshrc
 GHOSTTY_CONFIG_SOURCE=$CONFIG_DIR/ghostty-config
 ZED_CONFIG_SOURCE=$CONFIG_DIR/zed-config.json
 GITIGNORE_SOURCE=$CONFIG_DIR/.gitignore_global
+KUBECONFIG_SPLITTER=$CONFIG_DIR/kubeconfig-split
 
 # -----------------------------
 # Verify config directory
@@ -40,6 +41,35 @@ if [ -f "$TARGET_ZSHRC" ]; then
     print_success "Zsh config symlinked to ~/.zshrc"
 else
     print_warning "Zsh config file not found at $TARGET_ZSHRC"
+fi
+
+# -----------------------------
+# Kubeconfig context classifier
+print_status "Setting up kubeconfig context classifier..."
+if [ -x "$KUBECONFIG_SPLITTER" ]; then
+    LOCAL_BIN_DIR="$HOME/.local/bin"
+    mkdir -p "$LOCAL_BIN_DIR"
+    ln -sf "$KUBECONFIG_SPLITTER" "$LOCAL_BIN_DIR/kubeconfig-split"
+    print_success "kubeconfig-split installed in $LOCAL_BIN_DIR"
+
+    if command_exists kubectl && [ -f "$HOME/.kube/config" ] && \
+       { [ ! -f "$HOME/.kube/dev" ] || [ ! -f "$HOME/.kube/production" ]; }; then
+        if [ -t 0 ]; then
+            read -r -p "Classify Kubernetes contexts now? [y/N] " split_kubeconfigs
+            case "$split_kubeconfigs" in
+                y|Y|yes|YES)
+                    "$KUBECONFIG_SPLITTER"
+                    ;;
+                *)
+                    print_status "Run kubeconfig-split later to classify contexts"
+                    ;;
+            esac
+        else
+            print_status "Run kubeconfig-split interactively to classify contexts"
+        fi
+    fi
+else
+    print_warning "Kubeconfig splitter not found at $KUBECONFIG_SPLITTER"
 fi
 
 # -----------------------------
@@ -208,4 +238,10 @@ fi
 echo ""
 print_status "Next steps:"
 echo "  1. Install any missing Homebrew packages shown above"
-echo "  2. Restart your terminal or run: source ~/.zshrc"
+if command_exists kubectl && [ -f "$HOME/.kube/config" ] && \
+   { [ ! -f "$HOME/.kube/dev" ] || [ ! -f "$HOME/.kube/production" ]; }; then
+    echo "  2. Run kubeconfig-split to classify Kubernetes contexts"
+    echo "  3. Restart your terminal or run: source ~/.zshrc"
+else
+    echo "  2. Restart your terminal or run: source ~/.zshrc"
+fi
