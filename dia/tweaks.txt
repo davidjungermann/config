@@ -1,0 +1,17 @@
+# DiaTweaks switched on by setup.sh (one key per line; see `diatweaks list`)
+turnOffAI
+commandBar
+switchToOpenTab
+commandBarBlur
+commandBarDarken
+commandBarShadow
+commandBarInteractive
+edgeToEdge
+squareSidebarCorners
+showLoadingProgress
+profileEmoji
+groupTabsByDomain
+closeFromTabSwitcher
+diaChatModelFallback
+littleDiaEscapeCloses
+peekPinnedLinks

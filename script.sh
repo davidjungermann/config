@@ -25,6 +25,7 @@ GHOSTTY_CONFIG_SOURCE=$CONFIG_DIR/ghostty-config
 ZED_CONFIG_SOURCE=$CONFIG_DIR/zed-config.json
 GITIGNORE_SOURCE=$CONFIG_DIR/.gitignore_global
 KUBECONFIG_SPLITTER=$CONFIG_DIR/kubeconfig-split
+DIA_SETUP=$CONFIG_DIR/dia/setup.sh
 
 # -----------------------------
 # Verify config directory
@@ -215,6 +216,30 @@ else
 fi
 
 # -----------------------------
+# Dia (DiaTweaks + local patches)
+print_status "Setting up Dia..."
+if [ -x "$DIA_SETUP" ]; then
+    setup_dia=y
+    if [ -t 0 ]; then
+        read -r -p "Patch Dia with DiaTweaks now? Dia will quit and reopen. [Y/n] " setup_dia
+    fi
+    case "$setup_dia" in
+        n|N|no|NO)
+            print_status "Run $DIA_SETUP later to set up Dia"
+            ;;
+        *)
+            if "$DIA_SETUP"; then
+                print_success "Dia patched with DiaTweaks"
+            else
+                print_warning "Dia setup did not finish - rerun $DIA_SETUP"
+            fi
+            ;;
+    esac
+else
+    print_warning "Dia setup script not found at $DIA_SETUP"
+fi
+
+# -----------------------------
 # Done!
 print_status "Summary:"
 echo "  ✓ Zsh configuration"
@@ -233,6 +258,11 @@ if command_exists nvim; then
     echo "  ✓ Neovim"
 else
     echo "  - Neovim (not installed)"
+fi
+if [ -d "/Applications/Dia.app" ]; then
+    echo "  ✓ Dia browser"
+else
+    echo "  - Dia browser (not installed)"
 fi
 
 echo ""

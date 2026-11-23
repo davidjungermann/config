@@ -125,6 +125,20 @@ cask "font-meslo-lg-nerd-font"  # For Ghostty terminal
 
 The setup script validates these are installed and configures them automatically.
 
+## Dia browser
+
+`dia/setup.sh` patches Dia. It installs [DiaTweaks](https://github.com/JaceThings/DiaTweaks) with the local
+`dia/patches/SwitchToOpenTab` patch: Return on a command bar suggestion for an open tab switches to it, and ⌘-Return opens a copy.
+It then switches on the tweaks listed in `dia/tweaks.txt`, including Turn Off AI and the command bar over the page on ⌘T.
+
+```bash
+# Dia comes from the Brewfile (cask "thebrowsercompany-dia"); sign in once so folders and tabs sync
+./dia/setup.sh   # also run by script.sh, which asks first
+```
+
+Rerun it after Dia or DiaTweaks updates instead of `diatweaks update`, which would drop the local patch.
+To change the tweaks, edit `dia/tweaks.txt` (keys from `diatweaks list`). To undo: `diatweaks restore --purge`.
+
 ## Kubernetes contexts
 
 The setup installs `kubeconfig-split`, which keeps everyday and production
