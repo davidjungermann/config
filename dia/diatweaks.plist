@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commandBar</key>
+	<true/>
+	<key>diaFeed</key>
+	<string>https://releases.diabrowser.com/BoostBrowser-updates.xml</string>
+	<key>hideNewTabLogo</key>
+	<true/>
+	<key>littleDia</key>
+	<true/>
+	<key>onePassword</key>
+	<true/>
+	<key>peek</key>
+	<true/>
+	<key>profileEmojis</key>
+	<dict>
+		<key>7593B586-0790-4FD9-B7BB-DA8256FF1316</key>
+		<string>🫶</string>
+		<key>9BF6FE35-B4EA-40CB-A64E-977D40D6AD6A</key>
+		<string>🤫</string>
+	</dict>
+	<key>showAddressField</key>
+	<true/>
+	<key>sidebarGrain</key>
+	<false/>
+	<key>switchToOpenTab</key>
+	<true/>
+	<key>translucentSidebar</key>
+	<false/>
+	<key>turnOffAI</key>
+	<true/>
+	<key>undoCloseTab</key>
+	<true/>
+</dict>
+</plist>

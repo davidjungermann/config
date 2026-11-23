@@ -137,7 +137,10 @@ It then switches on the tweaks listed in `dia/tweaks.txt`, including Turn Off AI
 ```
 
 Rerun it after Dia or DiaTweaks updates instead of `diatweaks update`, which would drop the local patch.
-To change the tweaks, edit `dia/tweaks.txt` (keys from `diatweaks list`). To undo: `diatweaks restore --purge`.
+To change the tweaks, edit `dia/tweaks.txt` (keys from `diatweaks list`).
+Tweak options (such as profile emojis) are in `dia/diatweaks.plist`; refresh it after changing them in Settings → Patches:
+`defaults export com.diapatches - | plutil -convert xml1 -o dia/diatweaks.plist -`.
+Dia's own settings stored locally (inactive-tab auto-clean, ad blocker) are in `dia/dia-defaults.sh`; the rest sync with the Dia account. To undo: `diatweaks restore --purge`.
 
 ## Kubernetes contexts
 

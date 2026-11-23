@@ -20,6 +20,11 @@ for dir in "$here"/patches/*/; do
     cp "$dir"*.m "$repo/src/dylib/Patches/$name/"
 done
 
+# Settings live in defaults; write them while Dia is closed so it doesn't overwrite them on quit.
+if pgrep -xq Dia; then osascript -e 'quit app "Dia"' && sleep 3; fi
+"$here/dia-defaults.sh"
+defaults import com.diapatches "$here/diatweaks.plist"   # tweak options, e.g. profile emojis
+
 "$repo/install.sh" --yes
 
 PATH="$PATH:/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin"

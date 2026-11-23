@@ -15,3 +15,10 @@ closeFromTabSwitcher
 diaChatModelFallback
 littleDiaEscapeCloses
 peekPinnedLinks
+menuItemGuard
+onePassword
+showAddressField
+undoCloseTab
+hideNewTabLogo
+littleDia
+peek
