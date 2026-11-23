@@ -16,3 +16,5 @@
 .claude/
 .conductor/
 .gemini/
+
+**/.claude/settings.local.json

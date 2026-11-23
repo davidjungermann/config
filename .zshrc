@@ -167,4 +167,14 @@ export EDITOR=nvim
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# Node from nvm's default alias, ahead of Homebrew. See ~/.zprofile.
+if [[ -r "${NVM_DIR:-$HOME/.nvm}/alias/default" ]]; then
+  nvm_default="$(<"${NVM_DIR:-$HOME/.nvm}/alias/default")"
+  nvm_default="${nvm_default#v}"
+  if [[ -x "${NVM_DIR:-$HOME/.nvm}/versions/node/v${nvm_default}/bin/node" ]]; then
+    export PATH="${NVM_DIR:-$HOME/.nvm}/versions/node/v${nvm_default}/bin:$PATH"
+  fi
+  unset nvm_default
+fi
+
 [[ -z "$ZSH_PROFILE" ]] || zprof
