@@ -127,8 +127,9 @@ The setup script validates these are installed and configures them automatically
 
 ## Dia browser
 
-`dia/setup.sh` patches Dia. It installs [DiaTweaks](https://github.com/JaceThings/DiaTweaks) with the local
-`dia/patches/SwitchToOpenTab` patch: Return on a command bar suggestion for an open tab switches to it, and ⌘-Return opens a copy.
+`dia/setup.sh` patches Dia. It installs [DiaTweaks](https://github.com/JaceThings/DiaTweaks) and copies the tweaks in
+`dia/patches/` into DiaTweaks' [local tweaks](https://github.com/JaceThings/DiaTweaks/blob/main/docs/local-tweaks.md) folder:
+`SwitchToOpenTab` (Return on a command bar suggestion for an open tab switches to it, ⌘-Return opens a copy) and `MenuItemGuard`.
 It then switches on the tweaks listed in `dia/tweaks.txt`, including Turn Off AI and the command bar over the page on ⌘T.
 
 ```bash
@@ -136,7 +137,11 @@ It then switches on the tweaks listed in `dia/tweaks.txt`, including Turn Off AI
 ./dia/setup.sh   # also run by script.sh, which asks first
 ```
 
-Rerun it after Dia or DiaTweaks updates instead of `diatweaks update`, which would drop the local patch.
+Updates need nothing from this repo. DiaTweaks turns off Dia's own updater and installs new Dia and DiaTweaks versions
+when Dia quits (Settings → Home → Software Update; `diatweaks update-dia` / `diatweaks update` to do it now), recompiling
+the local tweaks against each new version. The first install is a source build, which DiaTweaks only replaces with a newer
+release, so automatic DiaTweaks updates start from the first release after it. Don't `brew upgrade --greedy` Dia: it
+would replace the patched app; `diatweaks update-dia` is the upgrade path. After editing `dia/patches/`, rerun `./dia/setup.sh`.
 To change the tweaks, edit `dia/tweaks.txt` (keys from `diatweaks list`).
 Tweak options (such as profile emojis) are in `dia/diatweaks.plist`; refresh it after changing them in Settings → Patches:
 `defaults export com.diapatches - | plutil -convert xml1 -o dia/diatweaks.plist -`.
