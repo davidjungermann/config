@@ -169,6 +169,19 @@ kubeconfig dev
 kubeconfig production
 ```
 
+Non-interactive tools (including Claude Code) run commands through the script
+instead, and `kubeconfig check` fails if a production cluster has leaked into
+the dev file:
+
+```bash
+kubeconfig dev -- kubectl get pods
+kubeconfig production -- kubectl get pods
+kubeconfig check
+```
+
+`claude-hooks/kubeconfig-guard.sh` is a Claude Code PreToolUse hook that blocks
+adding production contexts to other kubeconfigs and points Claude at the script.
+
 The split only organizes contexts and reduces accidental context selection. It
 does not change permissions: GCP IAM continues to control what each user can do
 in a cluster.

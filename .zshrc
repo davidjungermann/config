@@ -77,25 +77,17 @@ export PATH="$HOME/.local/bin:$PATH"
 # they have been classified with `kubeconfig-split`.
 [[ -f "$HOME/.kube/dev" ]] && export KUBECONFIG="$HOME/.kube/dev"
 kubeconfig() {
-    case "$1" in
-        dev|production)
-            if [[ -n "${2:-}" ]]; then
-                echo "Usage: kubeconfig {dev|production}" >&2
-                return 1
-            fi
-            if [[ ! -f "$HOME/.kube/$1" ]]; then
-                echo "Missing $HOME/.kube/$1; run kubeconfig-split first." >&2
-                return 1
-            fi
-            export KUBECONFIG="$HOME/.kube/$1"
-            echo "KUBECONFIG=$KUBECONFIG"
-            kubectl config current-context
-            ;;
-        *)
-            echo "Usage: kubeconfig {dev|production}" >&2
-            return 1
-            ;;
-    esac
+    # `kubeconfig dev|production` switches this shell; everything else goes to
+    # the kubeconfig script (e.g. `kubeconfig production -- kubectl get pods`).
+    if [[ $# -eq 1 && ( "$1" == dev || "$1" == production ) ]]; then
+        local target
+        target="$(command kubeconfig path "$1")" || return 1
+        export KUBECONFIG="$target"
+        echo "KUBECONFIG=$KUBECONFIG"
+        kubectl config current-context
+    else
+        command kubeconfig "$@"
+    fi
 }
 
 # Remove the previous local production guard when this file is re-sourced in

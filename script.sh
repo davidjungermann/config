@@ -25,6 +25,7 @@ GHOSTTY_CONFIG_SOURCE=$CONFIG_DIR/ghostty-config
 ZED_CONFIG_SOURCE=$CONFIG_DIR/zed-config.json
 GITIGNORE_SOURCE=$CONFIG_DIR/.gitignore_global
 KUBECONFIG_SPLITTER=$CONFIG_DIR/kubeconfig-split
+KUBECONFIG_SWITCHER=$CONFIG_DIR/kubeconfig
 DIA_SETUP=$CONFIG_DIR/dia/setup.sh
 
 # -----------------------------
@@ -52,6 +53,10 @@ if [ -x "$KUBECONFIG_SPLITTER" ]; then
     mkdir -p "$LOCAL_BIN_DIR"
     ln -sf "$KUBECONFIG_SPLITTER" "$LOCAL_BIN_DIR/kubeconfig-split"
     print_success "kubeconfig-split installed in $LOCAL_BIN_DIR"
+    if [ -x "$KUBECONFIG_SWITCHER" ]; then
+        ln -sf "$KUBECONFIG_SWITCHER" "$LOCAL_BIN_DIR/kubeconfig"
+        print_success "kubeconfig installed in $LOCAL_BIN_DIR"
+    fi
 
     if command_exists kubectl && [ -f "$HOME/.kube/config" ] && \
        { [ ! -f "$HOME/.kube/dev" ] || [ ! -f "$HOME/.kube/production" ]; }; then
